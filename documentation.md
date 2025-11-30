@@ -571,3 +571,11 @@ At this point, I can:
 - Understand what teammates mean by table, row, primary key, and filter queries
 
 This is **everything required for Internship Database Usage** ✅
+
+---
+
+with this I learned one more key skill for **Data Management**,
+
+### POSTGRESQL - Data modeling, CRUD, filtering & sorting
+
+---
