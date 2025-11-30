@@ -1,12 +1,4 @@
-# PostgreSQL Basics – Intern-Ready Notes (From Zero to DELETE)
-
-> These notes are based on my **hands-on learning journey for an internship** with the stack:
->
-> - Django Backend
-> - PostgreSQL Database
-> - Next.js Frontend
->
-> Goal: Become **intern-ready**, not a database expert.
+# PostgreSQL Basics
 
 ---
 
