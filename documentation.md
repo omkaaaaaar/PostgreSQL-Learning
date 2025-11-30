@@ -1,5 +1,13 @@
 # PostgreSQL Basics – Intern-Ready Notes (From Zero to DELETE)
 
+> These notes are based on my **hands-on learning journey for an internship** with the stack:
+>
+> - Django Backend
+> - PostgreSQL Database
+> - Next.js Frontend
+>
+> Goal: Become **intern-ready**, not a database expert.
+
 ---
 
 ## 1. What is PostgreSQL and `psql`?
@@ -278,6 +286,59 @@ This is done to prevent:
 
 ---
 
+## 15. Deleting MULTIPLE Rows (Safe Way)
+
+✅ You **can delete multiple rows at once** — but only using a `WHERE` condition.
+
+### Example 1: Delete everyone with `age = 21`
+
+```sql
+DELETE FROM students
+WHERE age = 21;
+```
+
+If 3 students match, output will be:
+
+```
+DELETE 3
+```
+
+Meaning:
+
+- ✅ 3 rows were deleted
+- ✅ Table still exists
+
+---
+
+### Example 2: Delete using a range (greater than)
+
+```sql
+DELETE FROM students
+WHERE age > 22;
+```
+
+This deletes **all students older than 22**.
+
+---
+
+### ⚠️ Dangerous Command (Never Run by Mistake)
+
+```sql
+DELETE FROM students;
+```
+
+This will:
+
+- ❌ Delete **ALL rows** from the table
+- ✅ Keep the table structure
+- ❌ `SELECT * FROM students;` → will show empty
+
+**Golden Rule:**
+
+> ✅ Always use `DELETE ... WHERE ...`
+
+---
+
 ## ✅ What I Have Learned Until DELETE
 
 - ✅ Enter PostgreSQL using `psql`
@@ -313,6 +374,54 @@ Check result:
 ```sql
 SELECT * FROM students;
 ```
+
+---
+
+## 16. Multiple Updates (Rows & Columns)
+
+### A) Update MULTIPLE ROWS at once
+
+Use a condition that matches many rows:
+
+```sql
+UPDATE students
+SET age = 22
+WHERE age = 21;
+```
+
+If 3 students match:
+
+```
+UPDATE 3
+```
+
+---
+
+### B) Update MULTIPLE COLUMNS in one row
+
+Change name **and** age together:
+
+```sql
+UPDATE students
+SET name = 'Omkar Patkar',
+    age = 24
+WHERE id = 1;
+```
+
+---
+
+### ⚠️ Dangerous Update (Never run by mistake)
+
+```sql
+UPDATE students
+SET age = 30;
+```
+
+This updates **EVERY row** in the table.
+
+**Golden Rule:**
+
+> ✅ Always use `UPDATE ... WHERE ...`
 
 ---
 
@@ -352,16 +461,102 @@ ORDER BY age DESC;
 
 ---
 
+## 18. Why Row Order Changes After UPDATE / DELETE (Very Important)
+
+📌 **Real Observation from Practice:**
+
+After running an `UPDATE`, the result of:
+
+```sql
+SELECT * FROM students;
+```
+
+appeared in a different order like:
+
+```text
+ 3 | Bhatkar
+ 6 | Pranav
+ 2 | SUTAR
+ 4 | Tushar
+ 1 | Omkar Patkar
+```
+
+This is **NOT a bug** and **NOT caused by UPDATE directly**.
+
+---
+
+### ✅ The Real Reason
+
+> **SQL tables are UNORDERED by default.**
+
+If you do not use `ORDER BY`, PostgreSQL is free to return rows in **any order** it finds fastest.
+
+---
+
+### 🧠 Why This Happens (Simple Intern-Level Explanation)
+
+- Data is stored inside **disk blocks**
+- When you run:
+
+  - INSERT
+  - DELETE
+  - UPDATE
+    PostgreSQL may:
+
+- Move rows internally
+- Reorganize storage
+- Fetch rows in a different physical sequence
+
+So the database thinks:
+
+> “You didn’t say HOW to sort, so I’ll return rows however it’s convenient.”
+
+---
+
+### ✅ The Correct Way to Always Get Sorted Data
+
+By `id` (normal order):
+
+```sql
+SELECT * FROM students
+ORDER BY id;
+```
+
+By `id` (latest first):
+
+```sql
+SELECT * FROM students
+ORDER BY id DESC;
+```
+
+By `name`:
+
+```sql
+SELECT * FROM students
+ORDER BY name;
+```
+
+---
+
+### ✅ Golden Rule for Real Projects
+
+> ❗ **Never trust default `SELECT *` order**
+> ✅ Always use `ORDER BY` when order matters (UI, APIs, reports)
+
+---
+
 ## ✅ What I Have Learned Till UPDATE, WHERE & ORDER BY (Intern-Ready Core)
 
 - ✅ Create databases and tables
 - ✅ Insert one and multiple rows
 - ✅ Read data using SELECT
 - ✅ Update existing data
+- ✅ Update multiple rows and columns
 - ✅ Filter data using WHERE
 - ✅ Sort data using ORDER BY
-- ✅ Delete specific rows safely
+- ✅ Delete single and multiple rows safely
 - ✅ Understand how SERIAL IDs behave
+- ✅ Understand why row order changes without ORDER BY
 
 ---
 
