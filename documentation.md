@@ -1,4 +1,4 @@
-# PostgreSQL Basics
+# PostgreSQL Basics – Intern-Ready Notes (From Zero to DELETE)
 
 ---
 
@@ -292,10 +292,87 @@ This is done to prevent:
 
 ---
 
-## 🎯 Next Step (Not Included Here)
+## 15. Updating Existing Data (UPDATE)
 
-- UPDATE
-- WHERE
-- ORDER BY
+To change data in an existing row:
 
-These will complete the **intern-ready PostgreSQL core**.
+```sql
+UPDATE students
+SET age = 25
+WHERE id = 1;
+```
+
+Meaning:
+
+- `UPDATE students` → choose the table
+- `SET age = 25` → change the value
+- `WHERE id = 1` → apply change to only one specific row
+
+Check result:
+
+```sql
+SELECT * FROM students;
+```
+
+---
+
+## 16. Filtering Data with WHERE
+
+### Get students with age greater than 20
+
+```sql
+SELECT * FROM students
+WHERE age > 20;
+```
+
+### Get student with a specific name
+
+```sql
+SELECT * FROM students
+WHERE name = 'Omkar';
+```
+
+---
+
+## 17. Sorting Data with ORDER BY
+
+### Sort by age (ascending)
+
+```sql
+SELECT * FROM students
+ORDER BY age;
+```
+
+### Sort by age (descending)
+
+```sql
+SELECT * FROM students
+ORDER BY age DESC;
+```
+
+---
+
+## ✅ What I Have Learned Till UPDATE, WHERE & ORDER BY (Intern-Ready Core)
+
+- ✅ Create databases and tables
+- ✅ Insert one and multiple rows
+- ✅ Read data using SELECT
+- ✅ Update existing data
+- ✅ Filter data using WHERE
+- ✅ Sort data using ORDER BY
+- ✅ Delete specific rows safely
+- ✅ Understand how SERIAL IDs behave
+
+---
+
+## 🚀 PostgreSQL Status: INTERN-READY
+
+At this point, I can:
+
+- Verify Django data manually using `psql`
+- Debug wrong API data using `SELECT`
+- Fix incorrect data using `UPDATE`
+- Remove bad data using `DELETE`
+- Understand what teammates mean by table, row, primary key, and filter queries
+
+This is **everything required for Internship Database Usage** ✅
