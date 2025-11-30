@@ -579,3 +579,51 @@ with this I learned one more key skill for **Data Management**,
 ### POSTGRESQL - Data modeling, CRUD, filtering & sorting
 
 ---
+
+## TO integrate Postgres in Django
+
+1. create a db in pgadmin4 databse folder
+
+2. In django main app, in settings.py; paste ->
+
+```
+DATABASES = {
+    # "default": {
+    #     "ENGINE": "django.db.backends.sqlite3",
+    #     "NAME": BASE_DIR / "db.sqlite3",
+    # }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'db_name',
+        'USER': 'db_admin_name',
+        'PASSWORD': 'db_admin_password',
+        'HOST': 'localhost',
+        'PORT': '',
+}
+}
+```
+
+3. Make Migrations then in terminal:
+
+```
+python manage.py makemigrations (optional 1st line, research first to use ts ln!)
+python manage.py migrate
+```
+
+This will migrate models.py model into the postgresdb
+
+4. To acess db:
+
+```
+python manage.py dbshell
+```
+
+5. inside terminal:
+
+```
+chaidb#= \dt
+```
+
+Ts display all the tables in the particular db
+
+## postgres is integrated in Django and the migrations are made!!!!
